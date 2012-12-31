@@ -7,9 +7,11 @@ Bootstrap the app
 -----------------
 
 If the app already exists:
+
     heroku config:add BUILDPACK_URL=https://bitbucket.org/mtolmacs/heroku-buildpack-php-with-composer.git
 
 If creating a new app:
+
     heroku create myapp --buildpack https://bitbucket.org/mtolmacs/heroku-buildpack-php-with-composer.git
 
 Configuration
