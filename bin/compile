@@ -48,6 +48,7 @@ mkdir -p bin
 echo "#!/usr/bin/env bash\n\nLD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini \"\$@\"\n" > bin/php
 chmod a+x bin/php
 #export PATH=$PATH:/app/bin
+cat bin/php
 
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
