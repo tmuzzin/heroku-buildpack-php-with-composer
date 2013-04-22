@@ -64,6 +64,8 @@ fi
 if [ -f www/vendor/bin/propel-gen ]; then
   echo "-----> Running Propel migrations"
   cd www
+  mkdir -p /usr/bin
+  ln -s /bin/sh /usr/bin/env
   LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini vendor/bin/propel-gen migrate
   cd $BUILD_DIR
 fi
