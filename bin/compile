@@ -44,13 +44,7 @@ cp $LP_DIR/conf/php.ini php
 
 # make php available on bin
 mkdir -p bin
-#ln -s /app/php/bin/php bin/php
-echo "#!/usr/bin/env bash" > bin/php
-echo "" >> bin/php
-echo "LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini \"\$@\"" >> bin/php
-echo "" >> bin/php
-chmod a+x bin/php
-export PATH=$PATH:/app/bin
+ln -s /app/php/bin/php bin/php
 
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
@@ -68,11 +62,10 @@ fi
 
 # check if we have Propel Migrations to run
 if [ -f www/vendor/bin/propel-gen ]; then
+  export PHP_COMMAND="LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini"
+  export PHING_COMMAND="$PHP_COMMAND www/vendor/propel/propel1/generator/bin/phing.php"
   echo "-----> Running Propel migrations"
   cd www
-  echo $PATH
-  ls -la /app/bin
-  cat /app/bin/php
   vendor/bin/propel-gen migrate
   cd $BUILD_DIR
 fi
