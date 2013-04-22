@@ -44,16 +44,13 @@ cp $LP_DIR/conf/php.ini php
 
 # make php available on bin
 mkdir -p bin
-ln -s /app/php/bin/php bin/php
-
-# make php available on the build path
-mkdir -p $BUILD_DIR/bin
-echo "#!/usr/bin/env bash" > $BUILD_DIR/bin/php
-echo "" >> $BUILD_DIR/bin/php
-echo "LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini \"\$@\"" >> $BUILD_DIR/bin/php
-echo "" >> $BUILD_DIR/bin/php
-chmod a+x $BUILD_DIR/bin/php
-export PATH=$PATH:$BUILD_DIR/bin
+#ln -s /app/php/bin/php bin/php
+echo "#!/usr/bin/env bash" > bin/php
+echo "" >> bin/php
+echo "LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini \"\$@\"" >> bin/php
+echo "" >> bin/php
+chmod a+x bin/php
+export PATH=$PATH:/app/bin
 
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
@@ -75,7 +72,7 @@ if [ -f www/vendor/bin/propel-gen ]; then
   cd www
   echo $PATH
   ls -la /app/bin
-  cat $BUILD_DIR/bin/php
+  cat /app/bin/php
   vendor/bin/propel-gen migrate
   cd $BUILD_DIR
 fi
