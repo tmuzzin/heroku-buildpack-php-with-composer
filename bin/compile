@@ -45,6 +45,8 @@ cp $LP_DIR/conf/php.ini php
 # make php available on bin
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
+export LD_LIBRARY_PATH=$BUILD_DIR/php/ext
+export PATH=/app/bin:$PATH
 
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
