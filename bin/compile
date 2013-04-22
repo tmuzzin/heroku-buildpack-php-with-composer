@@ -46,6 +46,14 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
+cat >>$CACHE_DIR/php-cli <<EOF
+#!/usr/bin/env bash
+LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini "$@"
+EOF
+
+chmod +x $CACHE_DIR/php-cli
+export PATH=$PATH:$CACHE_DIR
+
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   GIT_DIR_ORIG=$GIT_DIR
@@ -64,6 +72,7 @@ fi
 if [ -f www/vendor/bin/propel-gen ]; then
   export PHP_COMMAND="LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini"
   export PHING_COMMAND="$PHP_COMMAND www/vendor/propel/propel1/generator/bin/phing.php"
+  
   echo "-----> Running Propel migrations"
   cd www
   vendor/bin/propel-gen migrate
