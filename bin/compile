@@ -50,7 +50,7 @@ echo "" >> bin/php
 echo "LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini \"\$@\"" >> bin/php
 echo "" >> bin/php
 chmod a+x bin/php
-#export PATH=$PATH:/app/bin
+export PATH=$PATH:/app/bin
 
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
@@ -70,6 +70,7 @@ fi
 if [ -f www/vendor/bin/propel-gen ]; then
   echo "-----> Running Propel migrations"
   cd www
+  echo $PATH
   vendor/bin/propel-gen migrate
   cd $BUILD_DIR
 fi
