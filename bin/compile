@@ -60,6 +60,14 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   export GIT_DIR=$GIT_DIR_ORIG
 fi
 
+# check if we have Propel Migrations to run
+if [ -f www/vendor/bin/propel-gen ]; then
+  echo "-----> Running Propel migrations"
+  cd www
+  LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $LP_DIR/conf/php.ini vendor/bin/propel-gen migrate
+  cd $BUILD_DIR
+fi
+
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
