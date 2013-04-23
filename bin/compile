@@ -66,7 +66,7 @@ if [ -f www/vendor/bin/propel-gen ]; then
   export PATH=$BUILD_DIR/php/bin:$PATH
   echo "-----> Running Propel migrations"
   cd www
-  vendor/bin/propel-gen migrate
+  vendor/bin/propel-gen migrate -propertyfile heroku.properties
   cd $BUILD_DIR
 fi
 
