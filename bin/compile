@@ -70,6 +70,15 @@ if [ -f www/vendor/bin/propel-gen ]; then
   cd $BUILD_DIR
 fi
 
+
+
+# check if we have Propel Migrations to run
+if [ -f www/htaccess.template ]; then
+  mv www/htaccess.template www/.htaccess 
+fi
+
+
+
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
